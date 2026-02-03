@@ -1,0 +1,31 @@
+{
+  "name": "node-ai",
+  "version": "1.0.0",
+  "description": "Node.js AI 学习项目",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch",
+    "example:01": "tsx examples/01-simple-chat/index.ts",
+    "example:02": "tsx examples/02-streaming-chat/index.ts",
+    "example:03": "tsx examples/03-system-prompt/index.ts",
+    "proxy:01": "HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 pnpm example:01",
+    "proxy:02": "HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 pnpm example:02",
+    "proxy:03": "HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 pnpm example:03"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "learning"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.16.1",
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.72.1",
+    "@types/node": "^25.2.0",
+    "dotenv": "^17.2.3",
+    "https-proxy-agent": "^7.0.6",
+    "tsx": "^4.21.0"
+  }
+}
