@@ -13,19 +13,14 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
-import "dotenv/config";
-import { HttpsProxyAgent } from "https-proxy-agent";
 
 // 配置中转服务或代理
 // 🔥 强制使用正确的中转服务地址
 const baseURL = "https://api.aicodemirror.com/api/claudecode";
-const proxyUrl = null;
-const httpAgent = undefined;
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
   baseURL: baseURL,
-  httpAgent: httpAgent as any,
 });
 
 async function streamingChat() {
@@ -35,36 +30,30 @@ async function streamingChat() {
 
   try {
     // 🔑 关键：使用 stream() 方法而不是 create()
-    const stream = await client.messages.stream({
-      model: "claude-3-5-sonnet-20241022",
-      max_tokens: 1024,
-      messages: [
-        {
-          role: "user",
-          content: "用三段话介绍人工智能的历史",
-        },
-      ],
-    });
-
-    // 监听流式事件
-    for await (const event of stream) {
-      // 当收到文本内容时
-      if (
-        event.type === "content_block_delta" &&
-        event.delta.type === "text_delta"
-      ) {
-        // 逐字输出，不换行
-        process.stdout.write(event.delta.text);
-      }
-    }
+    const stream = await client.messages
+      .stream({
+        model: "claude-sonnet-4-5",
+        max_tokens: 1024,
+        messages: [
+          {
+            role: "user",
+            content: "用三段话介绍人工智能的历史",
+          },
+        ],
+      })
+      .on("text", (text) => {
+        process.stdout.write(text);
+        //process.stdout标准输出流
+        // 逐字输出，不换行 precess nodejs 的全局对象，提供了当前nodejs进程的信息和控制能力
+      });
 
     console.log("\n\n✅ 流式响应完成！");
 
     // 获取最终的完整消息
-    const finalMessage = await stream.finalMessage();
-    console.log("\n📊 Token使用情况：");
-    console.log(`输入: ${finalMessage.usage.input_tokens} tokens`);
-    console.log(`输出: ${finalMessage.usage.output_tokens} tokens`);
+    // const finalMessage = await stream.finalMessage();
+    // console.log("\n📊 Token使用情况：");
+    // console.log(`输入: ${finalMessage.usage.input_tokens} tokens`);
+    // console.log(`输出: ${finalMessage.usage.output_tokens} tokens`);
   } catch (error) {
     console.error("❌ 错误：", error);
   }

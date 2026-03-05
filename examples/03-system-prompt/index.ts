@@ -13,39 +13,27 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
-import "dotenv/config";
-import { HttpsProxyAgent } from "https-proxy-agent";
 
 // 配置中转服务或代理
 // 🔥 强制使用正确的中转服务地址
 const baseURL = "https://api.aicodemirror.com/api/claudecode";
-const proxyUrl = null;
-
-if (baseURL) {
-  console.log(`🌐 使用中转服务: ${baseURL}`);
-} else if (proxyUrl) {
-  console.log(`🔧 使用代理: ${proxyUrl}`);
-}
-
-const httpAgent = proxyUrl && !baseURL ? new HttpsProxyAgent(proxyUrl) : undefined;
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY!,
   baseURL: baseURL,
-  httpAgent: httpAgent as any,
 });
 
 // 定义不同的系统提示词
 const systemPrompts = {
   default: "你是一个有帮助的AI助手。",
 
-  professional:
-    "你是一位专业的技术顾问，擅长用简洁、准确的语言解释复杂概念。",
+  professional: "你是一位专业的技术顾问，擅长用简洁、准确的语言解释复杂概念。",
 
   teacher:
     "你是一位耐心的老师，擅长用通俗易懂的例子和比喻来教学。总是先问学生的理解程度，然后调整解释的深度。",
 
-  pirate: "你是一位海盗船长，说话带有海盗腔调，喜欢用航海术语，但仍然能准确回答问题。",
+  pirate:
+    "你是一位海盗船长，说话带有海盗腔调，喜欢用航海术语，但仍然能准确回答问题。",
 
   programmer: `你是一位资深程序员，回答时：
 1. 先给出简短答案
@@ -57,7 +45,7 @@ const systemPrompts = {
 async function testSystemPrompt(
   systemPrompt: string,
   userQuestion: string,
-  label: string
+  label: string,
 ) {
   console.log(`\n${"=".repeat(60)}`);
   console.log(`📋 ${label}`);
@@ -66,7 +54,7 @@ async function testSystemPrompt(
   console.log(`用户问题: ${userQuestion}\n`);
 
   const response = await client.messages.create({
-    model: "claude-3-5-sonnet-20241022",
+    model: "claude-sonnet-4-5",
     max_tokens: 500,
     system: systemPrompt, // 🔑 关键：添加系统提示词
     messages: [
@@ -82,10 +70,6 @@ async function testSystemPrompt(
 }
 
 async function main() {
-  if (proxyUrl) {
-    console.log(`🔧 使用代理: ${proxyUrl}`);
-  }
-
   console.log("\n🎭 系统提示词示例：同一个问题，不同的回答风格\n");
 
   const question = "什么是递归？";

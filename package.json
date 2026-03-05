@@ -9,10 +9,9 @@
     "example:01": "tsx examples/01-simple-chat/index.ts",
     "example:02": "tsx examples/02-streaming-chat/index.ts",
     "example:03": "tsx examples/03-system-prompt/index.ts",
-    "proxy:01": "HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 pnpm example:01",
-    "proxy:02": "HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 pnpm example:02",
-    "proxy:03": "HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 pnpm example:03"
+    "example:04": "tsx examples/04-mytest1/index.ts"
   },
+
   "keywords": [
     "ai",
     "llm",

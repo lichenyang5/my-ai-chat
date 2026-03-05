@@ -14,8 +14,7 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
-import "dotenv/config";
-console.log("ANTHROPIC_API_KEY:", process.env, process.env.ANTHROPIC_API_KEY);
+console.log("ANTHROPIC_API_KEY:", process.env.ANTHROPIC_API_KEY);
 // 检查API Key
 if (!process.env.ANTHROPIC_API_KEY) {
   console.error("❌ 请先配置ANTHROPIC_API_KEY环境变量");
@@ -50,7 +49,7 @@ async function simpleChat() {
   try {
     // 发送消息给AI
     const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022", // 模型名称
+      model: "claude-sonnet-4-5", // 模型名称
       max_tokens: 1024, // 最大返回长度
       messages: [
         {
