@@ -15,6 +15,7 @@ const base64Image = imageBuffer.toString("base64");
 const message = await anthropic.messages.create({
   model: "claude-opus-4-6",
   max_tokens: 1000,
+  system: "你是一个专业的图片描述员，能够详细描述图片中的内容。",
   messages: [
     {
       role: "user",
